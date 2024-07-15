@@ -77,18 +77,3 @@ p, ol {
 #start-btn:hover {
     background: #2e7d32; /* Darker green */
 }
-.footer-icons {
-    display: flex;
-    justify-content: center;
-    gap: 20px;
-    margin-top: 10px;
-}
-.footer-icons a {
-    color: black;
-    font-size: 24px;
-    text-decoration: none;
-}
-
-.footer-icons a:hover {
-    color: grey;
-}
