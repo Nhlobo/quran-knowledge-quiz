@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quran Quiz</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="quiz-container">
+        <div id="instructions">
+            <h1>Welcome to the Quran Quiz</h1>
+            <p>The Rules of this Quiz</p>
+            <ol>
+                <li>You will have only 15 seconds for each question.</li>
+                <li>Once you choose your answer, you can't change it.</li>
+                <li>You can't select any option once the time goes off.</li>
+                <li>You can't exit from the Quiz while you're playing.</li>
+                <li>You'll get points only for questions answered correctly.</li>
+            </ol>
+            <button id="start-btn">Start Quiz</button>
+        </div>
+        <div id="quiz" style="display: none;">
+            <div id="question">Question text</div>
+            <div class="answers">
+                <button class="answer">Answer 1</button>
+                <button class="answer">Answer 2</button>
+                <button class="answer">Answer 3</button>
+                <button class="answer">Answer 4</button>
+            </div>
+            <button id="submit" disabled>Submit Answer</button>
+            <div id="result"></div>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
