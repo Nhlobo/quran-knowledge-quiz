@@ -77,3 +77,9 @@ p, ol {
 #start-btn:hover {
     background: #2e7d32; /* Darker green */
 }
+footer {
+    margin-top: 20px;
+    text-align: center;
+    font-size: 14px;
+    color: #777;
+    }
