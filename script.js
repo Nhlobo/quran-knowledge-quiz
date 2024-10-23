@@ -61,13 +61,16 @@ function resetState() {
 }
 
 function getSelected() {
-    let answer;
-    answerEls.forEach(answerEl => {
+    let selectedAnswer = null;
+    answerEls.forEach((answerEl, index) => {
         if (answerEl.classList.contains("selected")) {
-            answer = answerEl.innerText;
+            if (index === 0) selectedAnswer = "a";
+            else if (index === 1) selectedAnswer = "b";
+            else if (index === 2) selectedAnswer = "c";
+            else if (index === 3) selectedAnswer = "d";
         }
     });
-    return answer;
+    return selectedAnswer;
 }
 
 function enableAnswers() {
