@@ -77,3 +77,15 @@ p, ol {
 #start-btn:hover {
     background: #2e7d32; /* Darker green */
 }
+
+footer {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    text-align: center;
+    font-family: 'Arial', sans-serif; /* Adjust to match your overall website font */
+    font-size: 14px; /* You can adjust the size */
+    color: #333; /* Adjust the color if needed */
+    padding: 10px 0;
+    background-color: #f1f1f1; /* Optional: Background color */
+    }
