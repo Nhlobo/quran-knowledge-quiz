@@ -3,8 +3,8 @@
   "short_name": "Quran Quiz",
   "start_url": "/index.html",
   "display": "standalone",
-  "background_color": "#ffffff", 
-  "theme_color": "#2b2b2b", 
+  "background_color": "#ffffff",
+  "theme_color": "#2b2b2b",
   "icons": [
     {
       "src": "/icons/icon-192x192.png",
@@ -19,14 +19,12 @@
       "purpose": "any"
     }
   ],
-  "description": "Test your knowledge of the Quran with this engaging quiz app.",
+  "description": "An engaging quiz app to test your knowledge of the Quran.",
   "orientation": "portrait",
   "scope": "/",
-  "related_applications": [],
-  "prefer_related_applications": false,
+  "app_id": "com.nhlobo.quranquiz",
   "launch_handler": {
     "client_mode": "web",
     "url": "/index.html"
-  },
-  "app_id": "com.quranquiz.app"
+  }
 }
