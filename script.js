@@ -15,6 +15,7 @@ let currentQuiz = 0;
 let score = 0;
 let timer;
 let timeLeft = 15;
+let userAnswers = [];
 
 const questionEl = document.getElementById("question");
 const answerEls = document.querySelectorAll(".answer");
@@ -23,10 +24,10 @@ const resultEl = document.getElementById("result");
 const startBtn = document.getElementById("start-btn");
 const instructionsEl = document.getElementById("instructions");
 const quizEl = document.getElementById("quiz");
-const timerEl = document.createElement("div"); // Create a timer display
+const timerEl = document.createElement("div");
 
-timerEl.id = "timer"; // Assign an ID for styling if needed
-quizEl.prepend(timerEl); // Add timer to the quiz container
+timerEl.id = "timer";
+quizEl.prepend(timerEl);
 
 startBtn.addEventListener("click", () => {
     instructionsEl.style.display = "none";
@@ -47,24 +48,36 @@ function loadQuiz() {
 
 function startTimer() {
     timeLeft = 15;
-    timerEl.innerText = `Time Left: ${timeLeft}s`; // Initial display
+    timerEl.innerText = `Time Left: ${timeLeft}s`;
     timer = setInterval(() => {
         timeLeft--;
-        timerEl.innerText = `Time Left: ${timeLeft}s`; // Update timer display
+        timerEl.innerText = `Time Left: ${timeLeft}s`;
         if (timeLeft <= 0) {
             clearInterval(timer);
             disableAnswers();
-            submitBtn.disabled = false;
-            timerEl.innerText = "Time's up!"; // Message when time runs out
+            submitBtn.disabled = true;
+            timerEl.innerText = "Time's up!";
+            handleTimeUp();
         }
     }, 1000);
+}
+
+function handleTimeUp() {
+    // Log the user's answer as null to indicate unanswered
+    userAnswers[currentQuiz] = null;
+    currentQuiz++;
+    if (currentQuiz < quizData.length) {
+        loadQuiz();
+    } else {
+        showResults();
+    }
 }
 
 function resetState() {
     enableAnswers();
     submitBtn.disabled = true;
     resultEl.innerHTML = '';
-    timerEl.innerText = ""; // Reset timer display
+    timerEl.innerText = "";
 }
 
 function getSelected() {
@@ -101,16 +114,26 @@ answerEls.forEach(answerEl => {
 submitBtn.addEventListener("click", () => {
     const answer = getSelected();
     clearInterval(timer);
-    if (answer) {
-        if (answer === quizData[currentQuiz].correct) {
-            score++;
-        }
-        currentQuiz++;
-        if (currentQuiz < quizData.length) {
-            loadQuiz();
-        } else {
-            resultEl.innerHTML = `You answered ${score}/${quizData.length} questions correctly.`;
-            submitBtn.style.display = "none";
-        }
+    userAnswers[currentQuiz] = answer; // Store the user's answer
+    if (answer === quizData[currentQuiz].correct) {
+        score++;
+    }
+    currentQuiz++;
+    if (currentQuiz < quizData.length) {
+        loadQuiz();
+    } else {
+        showResults();
     }
 });
+
+function showResults() {
+    resultEl.innerHTML = `You answered ${score}/${quizData.length} questions correctly.<br><br>`;
+    quizData.forEach((quizItem, index) => {
+        const userAnswer = userAnswers[index] ? userAnswers[index] : "Unanswered";
+        const correctAnswer = quizItem.correct;
+        resultEl.innerHTML += `<strong>Q${index + 1}: ${quizItem.question}</strong><br>
+            Your Answer: ${userAnswer} <br>
+            Correct Answer: ${correctAnswer}<br><br>`;
+    });
+    submitBtn.style.display = "none";
+     }
