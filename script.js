@@ -1,190 +1,169 @@
 const questions = [
     {
-        question: "What is the first word revealed in the Quran?",
-        answers: ["Iqra", "Bismillah", "Alhamdulillah", "Subhanallah"],
+        question: "What is the first chapter of the Quran?",
+        answers: ["Al-Fatiha", "Al-Baqarah", "An-Nas", "Al-Ikhlas"],
         correct: 0
     },
     {
-        question: "How many chapters are there in the Quran?",
-        answers: ["114", "120", "100", "150"],
+        question: "How many chapters (Surahs) are in the Quran?",
+        answers: ["114", "100", "30", "99"],
         correct: 0
     },
     {
-        question: "Who is the last prophet in Islam?",
-        answers: ["Moses", "Jesus", "Muhammad", "Abraham"],
-        correct: 2
-    },
-    {
-        question: "In which month was the Quran revealed?",
-        answers: ["Ramadan", "Shawwal", "Safar", "Dhu al-Hijjah"],
-        correct: 0
-    },
-    {
-        question: "Which surah is known as the 'Heart of the Quran'?",
-        answers: ["Al-Fatiha", "Al-Baqarah", "Yasin", "An-Nisa"],
-        correct: 2
-    },
-    {
-        question: "What is the longest surah in the Quran?",
-        answers: ["Al-Baqarah", "Al-Imran", "An-Nisa", "Al-Ma'idah"],
-        correct: 0
-    },
-    {
-        question: "Which companion compiled the Quran after the death of the Prophet Muhammad?",
-        answers: ["Ali", "Abu Bakr", "Umar", "Uthman"],
+        question: "Which Surah is known as the heart of the Quran?",
+        answers: ["Al-Baqarah", "Yasin", "Al-Fatiha", "Al-Ikhlas"],
         correct: 1
     },
     {
         question: "What does 'Quran' mean?",
-        answers: ["The Book", "Recitation", "Guidance", "Light"],
-        correct: 1
-    },
-    {
-        question: "How many times is the phrase 'Bismillah' mentioned in the Quran?",
-        answers: ["114", "99", "1", "7"],
+        answers: ["Recitation", "Book", "Guidance", "Prayer"],
         correct: 0
     },
     {
-        question: "What is the significance of the Quran in Islam?",
-        answers: ["It is a historical document", "It is a guide for life", "It is a collection of poems", "It is a storybook"],
-        correct: 1
+        question: "Which Surah was revealed in Medina?",
+        answers: ["Al-Fatiha", "Al-Baqarah", "Al-Ma'idah", "An-Nas"],
+        correct: 2
     },
     {
-        question: "Which surah is recited in every unit of the Muslim prayer?",
-        answers: ["Al-Fatiha", "Al-Baqarah", "Al-Ikhlas", "Al-Nas"],
+        question: "What is the main theme of the Quran?",
+        answers: ["Unity of God", "Prophet's Life", "History of Israel", "Science"],
         correct: 0
-    }
+    },
+    {
+        question: "How many times is the word 'Allah' mentioned in the Quran?",
+        answers: ["500", "1000", "2699", "2000"],
+        correct: 2
+    },
+    {
+        question: "Which prophet is mentioned most in the Quran?",
+        answers: ["Moses", "Jesus", "Muhammad", "Noah"],
+        correct: 0
+    },
+    {
+        question: "What is the language of the Quran?",
+        answers: ["Arabic", "English", "Hebrew", "Persian"],
+        correct: 0
+    },
+    {
+        question: "Which Surah is the longest in the Quran?",
+        answers: ["Al-Baqarah", "Al-Ikhlas", "An-Nas", "Al-Fatiha"],
+        correct: 0
+    },
 ];
 
 let currentQuestionIndex = 0;
 let score = 0;
 let timer;
-const timeLimit = 15; // 15 seconds for each question
+const totalTime = 15;
 
-const instructions = document.getElementById("instructions");
-const quizContainer = document.getElementById("quiz");
-const questionElement = document.getElementById("question");
-const answerButtons = document.querySelectorAll(".answer");
-const submitButton = document.getElementById("submit");
-const resultElement = document.getElementById("result");
-const timerElement = document.getElementById("timer");
-
-document.getElementById("start-btn").addEventListener("click", startQuiz);
-
-answerButtons.forEach((button, index) => {
-    button.addEventListener("click", () => selectAnswer(index));
-});
-
-submitButton.addEventListener("click", () => {
-    clearInterval(timer);
-    nextQuestion();
-});
+document.getElementById('start-btn').addEventListener('click', startQuiz);
+document.getElementById('submit').addEventListener('click', submitAnswer);
 
 function startQuiz() {
-    instructions.style.display = "none";
-    quizContainer.style.display = "block";
+    document.getElementById('instructions').style.display = 'none';
+    document.getElementById('quiz').style.display = 'block';
     score = 0;
     currentQuestionIndex = 0;
-    nextQuestion();
+    loadQuestion();
 }
 
-function nextQuestion() {
-    resetState();
-    if (currentQuestionIndex < questions.length) {
-        const currentQuestion = questions[currentQuestionIndex];
-        questionElement.textContent = currentQuestion.question;
-        currentQuestion.answers.forEach((answer, index) => {
-            answerButtons[index].textContent = answer;
-            answerButtons[index].disabled = false;
-            answerButtons[index].classList.remove("correct", "incorrect");
-        });
-        submitButton.disabled = true;
-
-        startTimer();
-    } else {
-        endQuiz();
-    }
+function loadQuestion() {
+    resetTimer();
+    const currentQuestion = questions[currentQuestionIndex];
+    document.getElementById('question').innerText = currentQuestion.question;
+    const answerButtons = document.querySelectorAll('.answer');
+    answerButtons.forEach((button, index) => {
+        button.innerText = currentQuestion.answers[index];
+        button.onclick = () => selectAnswer(index);
+        button.classList.remove('correct', 'incorrect'); // Clear previous classes
+    });
+    document.getElementById('submit').disabled = true; // Disable submit button until an answer is selected
 }
 
 function selectAnswer(selectedIndex) {
     const currentQuestion = questions[currentQuestionIndex];
-    const correctIndex = currentQuestion.correct;
-    const selectedButton = answerButtons[selectedIndex];
+    const answerButtons = document.querySelectorAll('.answer');
 
-    if (selectedIndex === correctIndex) {
-        score++;
-        selectedButton.classList.add("correct");
-    } else {
-        selectedButton.classList.add("incorrect");
-        answerButtons[correctIndex].classList.add("correct"); // Show correct answer
-    }
+    // Highlight selected answer
+    answerButtons[selectedIndex].classList.add('selected');
 
-    // Disable all buttons after selection
+    // Allow submission only if an answer is selected
+    document.getElementById('submit').disabled = false;
+
+    // Disable all answer buttons once selected
     answerButtons.forEach(button => {
-        button.disabled = true;
+        button.disabled = true; // Disable all buttons after an answer is selected
     });
-
-    submitButton.disabled = false; // Enable submit button
-    clearInterval(timer); // Clear timer when answer is selected
 }
 
-function startTimer() {
-    let timeLeft = timeLimit;
-    timerElement.textContent = `Time left: ${timeLeft}s`;
+function submitAnswer() {
+    const selectedAnswerIndex = Array.from(document.querySelectorAll('.answer'))
+        .findIndex(button => button.classList.contains('selected'));
+
+    const currentQuestion = questions[currentQuestionIndex];
+
+    // Check if the selected answer is correct
+    if (selectedAnswerIndex === currentQuestion.correct) {
+        score++;
+        document.querySelectorAll('.answer')[selectedAnswerIndex].classList.add('correct');
+    } else {
+        document.querySelectorAll('.answer')[selectedAnswerIndex].classList.add('incorrect');
+        document.querySelectorAll('.answer')[currentQuestion.correct].classList.add('correct'); // Show the correct answer
+    }
+
+    currentQuestionIndex++;
+    
+    if (currentQuestionIndex < questions.length) {
+        loadQuestion(); // Load the next question
+    } else {
+        showResults(); // Show results after the last question
+    }
+}
+
+function showResults() {
+    clearTimeout(timer);
+    document.getElementById('quiz').style.display = 'none';
+    const resultContainer = document.getElementById('result');
+    
+    // Display the user's score
+    resultContainer.innerHTML = `
+        <h2>Your Score: ${score}/${questions.length}</h2>
+        <div style="color: ${score >= 5 ? 'green' : 'red'};">
+            ${score >= 5 ? 'Congratulations!' : 'Try again!'}
+        </div>
+        <h3>Results:</h3>
+    `;
+    
+    questions.forEach((q, index) => {
+        resultContainer.innerHTML += `
+            <div>${index + 1}. ${q.question}<br>
+            Your answer: <span class="${q.correct === 0 ? 'correct' : 'incorrect'}">${q.answers[q.correct]}</span></div>
+        `;
+    });
+    
+    // Add a button to restart the quiz
+    resultContainer.innerHTML += '<button id="restart-btn">Restart Quiz</button>';
+    resultContainer.style.display = 'block';
+    
+    document.getElementById('restart-btn').addEventListener('click', restartQuiz);
+}
+
+function restartQuiz() {
+    document.getElementById('result').style.display = 'none';
+    document.getElementById('instructions').style.display = 'block';
+}
+
+function resetTimer() {
+    let timeLeft = totalTime;
+    document.getElementById('timer').innerText = timeLeft;
+
     timer = setInterval(() => {
         timeLeft--;
-        timerElement.textContent = `Time left: ${timeLeft}s`;
+        document.getElementById('timer').innerText = timeLeft;
+
         if (timeLeft <= 0) {
             clearInterval(timer);
-            handleTimeout();
+            submitAnswer(); // Automatically submit when time runs out
         }
     }, 1000);
-}
-
-function handleTimeout() {
-    const correctIndex = questions[currentQuestionIndex].correct;
-    answerButtons.forEach((button, index) => {
-        button.disabled = true; // Disable all buttons
-        if (index === correctIndex) {
-            button.classList.add("correct"); // Show correct answer
-        } else {
-            button.classList.add("incorrect"); // Mark incorrect
-        }
-    });
-    submitButton.disabled = false; // Enable submit button to move to next question
-    nextQuestion(); // Move to the next question automatically
-}
-
-function resetState() {
-    resultElement.textContent = ""; // Clear previous results
-    timerElement.textContent = ""; // Clear timer display
-}
-
-function endQuiz() {
-    quizContainer.style.display = "none";
-    instructions.style.display = "block";
-    displayResults();
-}
-
-function displayResults() {
-    resultElement.innerHTML = `You scored ${score} out of ${questions.length}.<br>`;
-    
-    // Display correct and incorrect answers
-    questions.forEach((question, index) => {
-        const status = index < score ? "correct" : "incorrect";
-        const color = status === "correct" ? "green" : "red";
-        resultElement.innerHTML += `<p style="color: ${color};">${question.question} - Correct answer: ${question.answers[question.correct]}</p>`;
-    });
-
-    if (score > 5) {
-        resultElement.innerHTML += "<p>Congratulations! You did great!</p>";
-    } else {
-        resultElement.innerHTML += "<p>Keep trying! You can do better!</p>";
-    }
-
-    // Add Try Again button
-    const tryAgainButton = document.createElement("button");
-    tryAgainButton.textContent = "Try Again";
-    tryAgainButton.addEventListener("click", startQuiz);
-    resultElement.appendChild(tryAgainButton);
     }
