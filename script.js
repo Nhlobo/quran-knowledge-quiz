@@ -72,28 +72,25 @@ function loadQuestion() {
     const currentQuestion = questions[currentQuestionIndex];
     document.getElementById('question').innerText = currentQuestion.question;
     const answerButtons = document.querySelectorAll('.answer');
+    
     answerButtons.forEach((button, index) => {
         button.innerText = currentQuestion.answers[index];
-        button.onclick = () => selectAnswer(index);
-        button.classList.remove('correct', 'incorrect'); // Clear previous classes
+        button.classList.remove('correct', 'incorrect', 'selected'); // Clear previous classes
+        button.disabled = false; // Enable buttons for the current question
     });
+    
     document.getElementById('submit').disabled = true; // Disable submit button until an answer is selected
 }
 
 function selectAnswer(selectedIndex) {
-    const currentQuestion = questions[currentQuestionIndex];
     const answerButtons = document.querySelectorAll('.answer');
-
-    // Highlight selected answer
-    answerButtons[selectedIndex].classList.add('selected');
-
-    // Allow submission only if an answer is selected
-    document.getElementById('submit').disabled = false;
-
-    // Disable all answer buttons once selected
-    answerButtons.forEach(button => {
-        button.disabled = true; // Disable all buttons after an answer is selected
+    answerButtons.forEach((button, index) => {
+        button.classList.remove('selected'); // Clear previous selection
+        button.disabled = true; // Disable all answer buttons
     });
+
+    answerButtons[selectedIndex].classList.add('selected');
+    document.getElementById('submit').disabled = false; // Enable the submit button
 }
 
 function submitAnswer() {
@@ -135,9 +132,10 @@ function showResults() {
     `;
     
     questions.forEach((q, index) => {
+        const userAnswer = index < currentQuestionIndex ? questions[index].answers[questions[index].correct] : "Skipped";
         resultContainer.innerHTML += `
             <div>${index + 1}. ${q.question}<br>
-            Your answer: <span class="${q.correct === 0 ? 'correct' : 'incorrect'}">${q.answers[q.correct]}</span></div>
+            Your answer: <span class="${q.correct === 0 ? 'correct' : 'incorrect'}">${userAnswer}</span></div>
         `;
     });
     
@@ -157,6 +155,7 @@ function resetTimer() {
     let timeLeft = totalTime;
     document.getElementById('timer').innerText = timeLeft;
 
+    clearInterval(timer); // Clear any existing timer
     timer = setInterval(() => {
         timeLeft--;
         document.getElementById('timer').innerText = timeLeft;
@@ -166,4 +165,4 @@ function resetTimer() {
             submitAnswer(); // Automatically submit when time runs out
         }
     }, 1000);
-    }
+                  }
