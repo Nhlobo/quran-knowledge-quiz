@@ -23,6 +23,10 @@ const resultEl = document.getElementById("result");
 const startBtn = document.getElementById("start-btn");
 const instructionsEl = document.getElementById("instructions");
 const quizEl = document.getElementById("quiz");
+const timerEl = document.createElement("div"); // Create a timer display
+
+timerEl.id = "timer"; // Assign an ID for styling if needed
+quizEl.prepend(timerEl); // Add timer to the quiz container
 
 startBtn.addEventListener("click", () => {
     instructionsEl.style.display = "none";
@@ -43,13 +47,15 @@ function loadQuiz() {
 
 function startTimer() {
     timeLeft = 15;
+    timerEl.innerText = `Time Left: ${timeLeft}s`; // Initial display
     timer = setInterval(() => {
+        timeLeft--;
+        timerEl.innerText = `Time Left: ${timeLeft}s`; // Update timer display
         if (timeLeft <= 0) {
             clearInterval(timer);
             disableAnswers();
             submitBtn.disabled = false;
-        } else {
-            timeLeft--;
+            timerEl.innerText = "Time's up!"; // Message when time runs out
         }
     }, 1000);
 }
@@ -58,16 +64,14 @@ function resetState() {
     enableAnswers();
     submitBtn.disabled = true;
     resultEl.innerHTML = '';
+    timerEl.innerText = ""; // Reset timer display
 }
 
 function getSelected() {
     let selectedAnswer = null;
     answerEls.forEach((answerEl, index) => {
         if (answerEl.classList.contains("selected")) {
-            if (index === 0) selectedAnswer = "a";
-            else if (index === 1) selectedAnswer = "b";
-            else if (index === 2) selectedAnswer = "c";
-            else if (index === 3) selectedAnswer = "d";
+            selectedAnswer = ["a", "b", "c", "d"][index];
         }
     });
     return selectedAnswer;
