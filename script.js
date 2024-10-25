@@ -1,16 +1,59 @@
 const questions = [
-    // Example questions array
     {
         question: "What is the first word revealed in the Quran?",
         answers: ["Iqra", "Bismillah", "Alhamdulillah", "Subhanallah"],
-        correct: 0 // Index of the correct answer
+        correct: 0
     },
     {
         question: "How many chapters are there in the Quran?",
         answers: ["114", "120", "100", "150"],
         correct: 0
     },
-    // Add more questions as needed
+    {
+        question: "Who is the last prophet in Islam?",
+        answers: ["Moses", "Jesus", "Muhammad", "Abraham"],
+        correct: 2
+    },
+    {
+        question: "In which month was the Quran revealed?",
+        answers: ["Ramadan", "Shawwal", "Safar", "Dhu al-Hijjah"],
+        correct: 0
+    },
+    {
+        question: "Which surah is known as the 'Heart of the Quran'?",
+        answers: ["Al-Fatiha", "Al-Baqarah", "Yasin", "An-Nisa"],
+        correct: 2
+    },
+    {
+        question: "What is the longest surah in the Quran?",
+        answers: ["Al-Baqarah", "Al-Imran", "An-Nisa", "Al-Ma'idah"],
+        correct: 0
+    },
+    {
+        question: "Which companion compiled the Quran after the death of the Prophet Muhammad?",
+        answers: ["Ali", "Abu Bakr", "Umar", "Uthman"],
+        correct: 1
+    },
+    {
+        question: "What does 'Quran' mean?",
+        answers: ["The Book", "Recitation", "Guidance", "Light"],
+        correct: 1
+    },
+    {
+        question: "How many times is the phrase 'Bismillah' mentioned in the Quran?",
+        answers: ["114", "99", "1", "7"],
+        correct: 0
+    },
+    {
+        question: "What is the significance of the Quran in Islam?",
+        answers: ["It is a historical document", "It is a guide for life", "It is a collection of poems", "It is a storybook"],
+        correct: 1
+    },
+    {
+        question: "Which surah is recited in every unit of the Muslim prayer?",
+        answers: ["Al-Fatiha", "Al-Baqarah", "Al-Ikhlas", "Al-Nas"],
+        correct: 0
+    }
 ];
 
 let currentQuestionIndex = 0;
@@ -24,9 +67,7 @@ const questionElement = document.getElementById("question");
 const answerButtons = document.querySelectorAll(".answer");
 const submitButton = document.getElementById("submit");
 const resultElement = document.getElementById("result");
-const timerElement = document.createElement('div');
-timerElement.id = "timer";
-quizContainer.prepend(timerElement);
+const timerElement = document.getElementById("timer");
 
 document.getElementById("start-btn").addEventListener("click", startQuiz);
 
@@ -101,9 +142,10 @@ function startTimer() {
 }
 
 function handleTimeout() {
+    const correctIndex = questions[currentQuestionIndex].correct;
     answerButtons.forEach((button, index) => {
         button.disabled = true; // Disable all buttons
-        if (index === questions[currentQuestionIndex].correct) {
+        if (index === correctIndex) {
             button.classList.add("correct"); // Show correct answer
         } else {
             button.classList.add("incorrect"); // Mark incorrect
@@ -145,4 +187,4 @@ function displayResults() {
     tryAgainButton.textContent = "Try Again";
     tryAgainButton.addEventListener("click", startQuiz);
     resultElement.appendChild(tryAgainButton);
-}
+    }
