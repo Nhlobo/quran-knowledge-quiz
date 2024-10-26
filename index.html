@@ -5,6 +5,45 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Quran Quiz</title>
     <link rel="stylesheet" href="style.css">
+    <style>
+        /* Add CSS styles for the "Try Again" button */
+        #try-again-btn {
+            position: fixed;
+            bottom: 10px;
+            left: 10px;
+            padding: 10px 20px;
+            background-color: #ff4757; /* Bright red to stand out */
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+            animation: pulse 1s infinite; /* Apply pulsing animation */
+            transition: transform 0.2s;
+            display: none; /* Initially hidden */
+        }
+
+        #try-again-btn:hover {
+            transform: scale(1.1); /* Slightly enlarge on hover */
+        }
+
+        /* Keyframes for pulsing animation */
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+                box-shadow: 0 0 10px rgba(255, 71, 87, 0.7);
+            }
+            50% {
+                transform: scale(1.1);
+                box-shadow: 0 0 20px rgba(255, 71, 87, 1);
+            }
+            100% {
+                transform: scale(1);
+                box-shadow: 0 0 10px rgba(255, 71, 87, 0.7);
+            }
+        }
+    </style>
 </head>
 <body>
     <div class="quiz-container">
@@ -33,9 +72,10 @@
             <div id="result"></div>
         </div>
     </div>
+    <button id="try-again-btn" onclick="startQuiz()">Try Again</button> <!-- Try Again Button -->
     <footer>
         © 2024 Mapengo Innovations.
     </footer>
     <script src="script.js"></script>
 </body>
-                    </html>
+                </html>
