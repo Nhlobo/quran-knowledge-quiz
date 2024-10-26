@@ -63,7 +63,6 @@ function startTimer() {
 }
 
 function handleTimeUp() {
-    // Log the user's answer as null to indicate unanswered
     userAnswers[currentQuiz] = null;
     currentQuiz++;
     if (currentQuiz < quizData.length) {
@@ -74,11 +73,37 @@ function handleTimeUp() {
 }
 
 function resetState() {
+    answerEls.forEach(el => el.classList.remove("selected"));
     enableAnswers();
     submitBtn.disabled = true;
     resultEl.innerHTML = '';
     timerEl.innerText = "";
 }
+
+// Add event listener for answer selection
+answerEls.forEach((answerEl) => {
+    answerEl.addEventListener("click", () => {
+        answerEls.forEach(el => el.classList.remove("selected"));
+        answerEl.classList.add("selected");
+        submitBtn.disabled = false;
+    });
+});
+
+// Event listener for submitting answer
+submitBtn.addEventListener("click", () => {
+    const selectedAnswer = getSelected();
+    userAnswers[currentQuiz] = selectedAnswer;
+    if (selectedAnswer === quizData[currentQuiz].correct) {
+        score++;
+    }
+    currentQuiz++;
+    if (currentQuiz < quizData.length) {
+        loadQuiz();
+    } else {
+        showResults();
+    }
+    clearInterval(timer);
+});
 
 function getSelected() {
     let selectedAnswer = null;
@@ -86,3 +111,18 @@ function getSelected() {
         if (answerEl.classList.contains("selected")) {
             selectedAnswer = ["a", "b", "c", "d"][index];
         }
+    });
+    return selectedAnswer;
+}
+
+function showResults() {
+    quizEl.innerHTML = `<h2>Your score is ${score}/${quizData.length}</h2>`;
+}
+
+function enableAnswers() {
+    answerEls.forEach(el => el.classList.remove("disabled"));
+}
+
+function disableAnswers() {
+    answerEls.forEach(el => el.classList.add("disabled"));
+    }
