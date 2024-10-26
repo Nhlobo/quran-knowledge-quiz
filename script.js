@@ -69,9 +69,6 @@ function startTimer() {
         timerEl.innerText = `Time Left: ${timeLeft}s`;
         if (timeLeft <= 0) {
             clearInterval(timer);
-            disableAnswers();
-            submitBtn.disabled = true;
-            timerEl.innerText = "Time's up!";
             handleTimeUp();
         }
     }, 1000);
@@ -79,11 +76,20 @@ function startTimer() {
 
 function handleTimeUp() {
     userAnswers[currentQuiz] = null; // Record no answer for this question
+    disableAnswers(); // Disable answer buttons
+    submitBtn.disabled = true; // Disable submit button
+    timerEl.innerText = "Time's up!";
+    
+    // Move to the next question or show results
     currentQuiz++;
     if (currentQuiz < quizData.length) {
-        loadQuiz();
+        setTimeout(() => {
+            loadQuiz();
+        }, 2000); // Delay before loading next question
     } else {
-        showResults();
+        setTimeout(() => {
+            showResults();
+        }, 2000); // Delay before showing results
     }
 }
 
@@ -109,8 +115,9 @@ submitBtn.addEventListener("click", () => {
     if (selectedAnswer === quizData[currentQuiz].correct) {
         score++;
     }
-    currentQuiz++;
     clearInterval(timer); // Clear timer when submitting
+
+    currentQuiz++;
     if (currentQuiz < quizData.length) {
         loadQuiz();
     } else {
