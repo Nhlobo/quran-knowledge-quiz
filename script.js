@@ -132,6 +132,23 @@ function getSelected() {
 
 function showResults() {
     quizEl.innerHTML = `<h2>Your score is ${score}/${quizData.length}</h2>`;
+    
+    // Determine button color based on score
+    if (score < 5) {
+        submitBtn.style.backgroundColor = "red";
+    } else if (score >= 5 && score < 8) {
+        submitBtn.style.backgroundColor = "orange";
+    } else if (score >= 8 && score <= 9) {
+        submitBtn.style.backgroundColor = "green";
+    }
+
+    // Show message if the score is 10/10
+    if (score === quizData.length) {
+        const message = document.createElement("p");
+        message.innerText = "Congratulations! You got a perfect score!";
+        quizEl.appendChild(message);
+    }
+
     tryAgainBtn.style.display = "block";
 }
 
@@ -150,4 +167,4 @@ function resetQuiz() {
     quizEl.innerHTML = '';
     instructionsEl.style.display = "block";
     quizEl.style.display = "none";
-     }
+    }
