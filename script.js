@@ -29,10 +29,25 @@ const timerEl = document.createElement("div");
 timerEl.id = "timer";
 quizEl.prepend(timerEl);
 
+// Create "Try Again" button
+const tryAgainBtn = document.createElement("button");
+tryAgainBtn.innerText = "Try Again";
+tryAgainBtn.id = "try-again-btn";
+tryAgainBtn.style.position = "fixed";
+tryAgainBtn.style.bottom = "10px";
+tryAgainBtn.style.left = "10px";
+tryAgainBtn.style.display = "none";
+document.body.appendChild(tryAgainBtn);
+
 startBtn.addEventListener("click", () => {
     instructionsEl.style.display = "none";
     quizEl.style.display = "block";
     loadQuiz();
+});
+
+tryAgainBtn.addEventListener("click", () => {
+    resetQuiz();
+    tryAgainBtn.style.display = "none";
 });
 
 function loadQuiz() {
@@ -117,6 +132,7 @@ function getSelected() {
 
 function showResults() {
     quizEl.innerHTML = `<h2>Your score is ${score}/${quizData.length}</h2>`;
+    tryAgainBtn.style.display = "block";
 }
 
 function enableAnswers() {
@@ -125,4 +141,13 @@ function enableAnswers() {
 
 function disableAnswers() {
     answerEls.forEach(el => el.classList.add("disabled"));
-    }
+}
+
+function resetQuiz() {
+    currentQuiz = 0;
+    score = 0;
+    userAnswers = [];
+    quizEl.innerHTML = '';
+    instructionsEl.style.display = "block";
+    quizEl.style.display = "none";
+     }
