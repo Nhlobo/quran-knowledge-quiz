@@ -78,7 +78,7 @@ function startTimer() {
 }
 
 function handleTimeUp() {
-    userAnswers[currentQuiz] = null;
+    userAnswers[currentQuiz] = null; // Record no answer for this question
     currentQuiz++;
     if (currentQuiz < quizData.length) {
         loadQuiz();
@@ -90,34 +90,32 @@ function handleTimeUp() {
 function resetState() {
     answerEls.forEach(el => el.classList.remove("selected"));
     enableAnswers();
-    submitBtn.disabled = true;
+    submitBtn.disabled = true; // Disable until an answer is selected
     resultEl.innerHTML = '';
     timerEl.innerText = "";
 }
 
-// Add event listener for answer selection
 answerEls.forEach((answerEl) => {
     answerEl.addEventListener("click", () => {
         answerEls.forEach(el => el.classList.remove("selected"));
         answerEl.classList.add("selected");
-        submitBtn.disabled = false;
+        submitBtn.disabled = false; // Enable button once an answer is selected
     });
 });
 
-// Event listener for submitting answer
 submitBtn.addEventListener("click", () => {
     const selectedAnswer = getSelected();
-    userAnswers[currentQuiz] = selectedAnswer;
+    userAnswers[currentQuiz] = selectedAnswer; // Store user's answer
     if (selectedAnswer === quizData[currentQuiz].correct) {
         score++;
     }
     currentQuiz++;
+    clearInterval(timer); // Clear timer when submitting
     if (currentQuiz < quizData.length) {
         loadQuiz();
     } else {
         showResults();
     }
-    clearInterval(timer);
 });
 
 function getSelected() {
@@ -138,18 +136,17 @@ function showResults() {
         submitBtn.style.backgroundColor = "red";
     } else if (score >= 5 && score < 8) {
         submitBtn.style.backgroundColor = "orange";
-    } else if (score >= 8 && score <= 9) {
+    } else if (score >= 8) {
         submitBtn.style.backgroundColor = "green";
     }
 
-    // Show message if the score is 10/10
     if (score === quizData.length) {
         const message = document.createElement("p");
         message.innerText = "Congratulations! You got a perfect score!";
         quizEl.appendChild(message);
     }
 
-    tryAgainBtn.style.display = "block";
+    tryAgainBtn.style.display = "block"; // Show the try again button
 }
 
 function enableAnswers() {
@@ -164,7 +161,8 @@ function resetQuiz() {
     currentQuiz = 0;
     score = 0;
     userAnswers = [];
-    quizEl.innerHTML = '';
-    instructionsEl.style.display = "block";
-    quizEl.style.display = "none";
-    }
+    resetState(); // Reset state to initial condition
+    timerEl.innerText = ""; // Clear timer
+    instructionsEl.style.display = "block"; // Show instructions
+    quizEl.style.display = "none"; // Hide quiz
+     }
