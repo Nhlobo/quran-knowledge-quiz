@@ -52,7 +52,7 @@ startBtn.addEventListener("click", () => {
 
 tryAgainBtn.addEventListener("click", () => {
     resetQuiz();
-    tryAgainBtn.style.display = "none";
+    tryAgainBtn.style.display = "none"; // Hide the Try Again button immediately
 });
 
 function loadQuiz() {
@@ -144,6 +144,7 @@ function getSelected() {
 function showResults() {
     quizEl.innerHTML = `<h2>Your score is ${score}/${quizData.length}</h2>`;
     
+    // Set button color based on score
     if (score < 5) {
         tryAgainBtn.style.backgroundColor = "red";
     } else if (score >= 5 && score < 8) {
@@ -158,7 +159,7 @@ function showResults() {
         quizEl.appendChild(message);
     }
 
-    tryAgainBtn.style.display = "block"; // Show the try again button
+    tryAgainBtn.style.display = "block"; // Show the Try Again button after results are shown
 }
 
 function enableAnswers() {
@@ -181,5 +182,5 @@ function resetQuiz() {
     quizEl.style.display = "none"; // Hide quiz content
     startBtn.disabled = false; // Re-enable start button
 
-    tryAgainBtn.style.display = "none"; // Hide the try again button
-     }
+    tryAgainBtn.style.display = "none"; // Hide the Try Again button
+        }
