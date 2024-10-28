@@ -24,10 +24,14 @@ const resultEl = document.getElementById("result");
 const startBtn = document.getElementById("start-btn");
 const instructionsEl = document.getElementById("instructions");
 const quizEl = document.getElementById("quiz");
-const timerEl = document.createElement("div");
 
-timerEl.id = "timer";
-quizEl.prepend(timerEl);
+// Create the timer element once
+let timerEl = document.getElementById("timer");
+if (!timerEl) {
+    timerEl = document.createElement("div");
+    timerEl.id = "timer";
+    quizEl.prepend(timerEl);
+}
 
 // Create "Try Again" button
 const tryAgainBtn = document.createElement("button");
@@ -43,6 +47,7 @@ startBtn.addEventListener("click", () => {
     instructionsEl.style.display = "none";
     quizEl.style.display = "block";
     loadQuiz();
+    startBtn.disabled = true; // Disable the start button after starting the quiz
 });
 
 tryAgainBtn.addEventListener("click", () => {
@@ -97,7 +102,7 @@ function resetState() {
     enableAnswers();
     submitBtn.disabled = true; // Disable until an answer is selected
     resultEl.innerHTML = '';
-    timerEl.innerText = "";
+    timerEl.innerText = ""; // Reset timer text
 }
 
 answerEls.forEach((answerEl) => {
@@ -169,7 +174,7 @@ function resetQuiz() {
     score = 0;
     userAnswers = [];
     resetState();
-    timerEl.innerText = "";
+    timerEl.innerText = ""; // Reset timer text
     instructionsEl.style.display = "block";
     quizEl.style.display = "none";
-        }
+     }
