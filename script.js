@@ -24,14 +24,25 @@ const resultEl = document.getElementById("result");
 const startBtn = document.getElementById("start-btn");
 const instructionsEl = document.getElementById("instructions");
 const quizEl = document.getElementById("quiz");
-const timerEl = document.getElementById("timer");
+const timerEl = document.createElement("div");
 
-const tryAgainBtn = document.getElementById("try-again-btn");
+timerEl.id = "timer";
+quizEl.prepend(timerEl);
+
+// Create "Try Again" button
+const tryAgainBtn = document.createElement("button");
+tryAgainBtn.innerText = "Try Again";
+tryAgainBtn.id = "try-again-btn";
+tryAgainBtn.style.position = "fixed";
+tryAgainBtn.style.bottom = "10px";
+tryAgainBtn.style.left = "10px";
+tryAgainBtn.style.display = "none";
+document.body.appendChild(tryAgainBtn);
 
 startBtn.addEventListener("click", () => {
-    instructionsEl.style.display = "none";
-    quizEl.style.display = "block";
-    loadQuiz();
+    instructionsEl.style.display = "none"; // Hides the instructions
+    quizEl.style.display = "block"; // Shows the quiz
+    loadQuiz(); // Loads the first question
 });
 
 tryAgainBtn.addEventListener("click", () => {
@@ -146,19 +157,4 @@ function showResults() {
 }
 
 function enableAnswers() {
-    answerEls.forEach(el => el.classList.remove("disabled"));
-}
-
-function disableAnswers() {
-    answerEls.forEach(el => el.classList.add("disabled"));
-}
-
-function resetQuiz() {
-    currentQuiz = 0;
-    score = 0;
-    userAnswers = [];
-    resetState();
-    timerEl.innerText = "";
-    instructionsEl.style.display = "block";
-    quizEl.style.display = "none";
-    }
+    answerEls.for
