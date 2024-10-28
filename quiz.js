@@ -40,9 +40,9 @@ tryAgainBtn.style.display = "none";
 document.body.appendChild(tryAgainBtn);
 
 startBtn.addEventListener("click", () => {
-    instructionsEl.style.display = "none"; // Hides the instructions
-    quizEl.style.display = "block"; // Shows the quiz
-    loadQuiz(); // Loads the first question
+    instructionsEl.style.display = "none";
+    quizEl.style.display = "block";
+    loadQuiz();
 });
 
 tryAgainBtn.addEventListener("click", () => {
@@ -157,24 +157,19 @@ function showResults() {
 }
 
 function enableAnswers() {
-    answerEls.forEach((answerEl) => {
-        answerEl.disabled = false; // Enable all answer buttons
-    });
+    answerEls.forEach(el => el.classList.remove("disabled"));
 }
 
 function disableAnswers() {
-    answerEls.forEach((answerEl) => {
-        answerEl.disabled = true; // Disable all answer buttons
-    });
+    answerEls.forEach(el => el.classList.add("disabled"));
 }
 
 function resetQuiz() {
-    currentQuiz = 0; // Reset the current quiz index
-    score = 0; // Reset the score
-    userAnswers = []; // Clear user answers
-    instructionsEl.style.display = "block"; // Show instructions again
-    quizEl.style.display = "none"; // Hide quiz
-    resultEl.innerHTML = ''; // Clear previous results
-    timerEl.innerText = ""; // Clear timer
-    tryAgainBtn.style.display = "none"; // Hide the try again button
-}
+    currentQuiz = 0;
+    score = 0;
+    userAnswers = [];
+    resetState();
+    timerEl.innerText = "";
+    instructionsEl.style.display = "block";
+    quizEl.style.display = "none";
+        }
