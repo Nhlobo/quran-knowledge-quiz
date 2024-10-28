@@ -36,9 +36,9 @@ document.body.appendChild(tryAgainBtn);
 
 startBtn.addEventListener("click", () => {
     resetQuiz(); // Reset quiz each time "Start" is clicked
-    instructionsEl.style.display = "none";
-    quizEl.style.display = "block";
-    loadQuiz();
+    loadQuiz(); // Load the quiz questions
+    instructionsEl.style.display = "none"; // Hide instructions
+    quizEl.style.display = "block"; // Show quiz
     startBtn.disabled = true; // Disable the start button
 });
 
@@ -146,8 +146,8 @@ function resetQuiz() {
     score = 0;
     clearInterval(timer); // Clear any existing timers
     timerEl.innerText = ""; 
-    instructionsEl.style.display = "block";
-    quizEl.style.display = "none";
+    instructionsEl.style.display = "block"; // Show instructions again
+    quizEl.style.display = "none"; // Hide quiz
     tryAgainBtn.style.display = "none"; // Hide the "Try Again" button
     startBtn.disabled = false; // Re-enable the start button
      }
