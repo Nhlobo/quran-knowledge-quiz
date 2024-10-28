@@ -50,8 +50,7 @@ startBtn.addEventListener("click", () => {
 });
 
 tryAgainBtn.addEventListener("click", () => {
-    resetQuiz();
-    tryAgainBtn.style.display = "none"; // Hide the try again button after resetting
+    resetQuiz(); // Reload the page to reset the quiz state
 });
 
 function loadQuiz() {
@@ -169,16 +168,6 @@ function disableAnswers() {
 }
 
 function resetQuiz() {
-    currentQuiz = 0;
-    score = 0;
-    userAnswers = [];
-    resetState();
-
-    // Show instructions and hide quiz content
-    instructionsEl.style.display = "block";
-    quizEl.style.display = "none";
-
-    // Reset start button
-    startBtn.disabled = false;
-    timerEl.innerText = ""; 
-     }
+    // Reload the page to fully reset the quiz state
+    location.reload();
+    }
