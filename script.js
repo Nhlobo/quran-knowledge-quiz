@@ -157,4 +157,24 @@ function showResults() {
 }
 
 function enableAnswers() {
-    answerEls.for
+    answerEls.forEach((answerEl) => {
+        answerEl.disabled = false; // Enable all answer buttons
+    });
+}
+
+function disableAnswers() {
+    answerEls.forEach((answerEl) => {
+        answerEl.disabled = true; // Disable all answer buttons
+    });
+}
+
+function resetQuiz() {
+    currentQuiz = 0; // Reset the current quiz index
+    score = 0; // Reset the score
+    userAnswers = []; // Clear user answers
+    instructionsEl.style.display = "block"; // Show instructions again
+    quizEl.style.display = "none"; // Hide quiz
+    resultEl.innerHTML = ''; // Clear previous results
+    timerEl.innerText = ""; // Clear timer
+    tryAgainBtn.style.display = "none"; // Hide the try again button
+}
