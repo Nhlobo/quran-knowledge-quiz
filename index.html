@@ -5,45 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Quran Quiz</title>
     <link rel="stylesheet" href="style.css">
-    <style>
-        /* Styling for the "Try Again" button */
-        #try-again-btn {
-            position: fixed;
-            bottom: 10px;
-            left: 10px;
-            padding: 10px 20px;
-            background-color: #ff4757;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            font-size: 16px;
-            cursor: pointer;
-            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-            animation: pulse 1s infinite;
-            transition: transform 0.2s;
-            display: none;
-        }
-
-        #try-again-btn:hover {
-            transform: scale(1.1);
-        }
-
-        /* Keyframes for pulsing animation */
-        @keyframes pulse {
-            0% {
-                transform: scale(1);
-                box-shadow: 0 0 10px rgba(255, 71, 87, 0.7);
-            }
-            50% {
-                transform: scale(1.1);
-                box-shadow: 0 0 20px rgba(255, 71, 87, 1);
-            }
-            100% {
-                transform: scale(1);
-                box-shadow: 0 0 10px rgba(255, 71, 87, 0.7);
-            }
-        }
-    </style>
 </head>
 <body>
     <div class="quiz-container">
@@ -59,22 +20,26 @@
             </ol>
             <button id="start-btn">Start Quiz</button>
         </div>
+        
         <div id="quiz" style="display: none;">
-            <div id="timer"></div>
+            <div id="timer">Time Left: 15s</div>
             <div id="question">Question text</div>
             <div class="answers">
-                <button class="answer">Answer 1</button>
-                <button class="answer">Answer 2</button>
-                <button class="answer">Answer 3</button>
-                <button class="answer">Answer 4</button>
+                <button class="answer" data-answer="a">Answer 1</button>
+                <button class="answer" data-answer="b">Answer 2</button>
+                <button class="answer" data-answer="c">Answer 3</button>
+                <button class="answer" data-answer="d">Answer 4</button>
             </div>
             <button id="submit" disabled>Submit Answer</button>
             <div id="result"></div>
         </div>
     </div>
-    <button id="try-again-btn" onclick="resetQuiz()">Try Again</button>
+    
+    <button id="try-again-btn" style="display: none;">Try Again</button>
     <footer>
         © 2024 Mapengo Innovations.
     </footer>
+
+    <script src="quiz.js"></script>
 </body>
-                    </html>
+</html>
