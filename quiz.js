@@ -174,7 +174,12 @@ function resetQuiz() {
     score = 0;
     userAnswers = [];
     resetState();
+
+    // Reset UI elements
     timerEl.innerText = ""; // Reset timer text
-    instructionsEl.style.display = "block";
-    quizEl.style.display = "none";
+    instructionsEl.style.display = "block"; // Show instructions
+    quizEl.style.display = "none"; // Hide quiz content
+    startBtn.disabled = false; // Re-enable start button
+
+    tryAgainBtn.style.display = "none"; // Hide the try again button
      }
