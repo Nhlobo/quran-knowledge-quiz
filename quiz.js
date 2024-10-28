@@ -15,7 +15,6 @@ let currentQuiz = 0;
 let score = 0;
 let timer;
 let timeLeft = 15;
-let userAnswers = [];
 
 const questionEl = document.getElementById("question");
 const answerEls = document.querySelectorAll(".answer");
@@ -24,13 +23,7 @@ const resultEl = document.getElementById("result");
 const startBtn = document.getElementById("start-btn");
 const instructionsEl = document.getElementById("instructions");
 const quizEl = document.getElementById("quiz");
-
-let timerEl = document.getElementById("timer");
-if (!timerEl) {
-    timerEl = document.createElement("div");
-    timerEl.id = "timer";
-    quizEl.prepend(timerEl);
-}
+const timerEl = document.getElementById("timer");
 
 const tryAgainBtn = document.createElement("button");
 tryAgainBtn.innerText = "Try Again";
@@ -49,9 +42,7 @@ startBtn.addEventListener("click", () => {
     startBtn.disabled = true; // Disable the start button
 });
 
-tryAgainBtn.addEventListener("click", () => {
-    resetQuiz(); // Reload the page to reset the quiz state
-});
+tryAgainBtn.addEventListener("click", resetQuiz);
 
 function loadQuiz() {
     resetState();
@@ -78,26 +69,17 @@ function startTimer() {
 }
 
 function handleTimeUp() {
-    userAnswers[currentQuiz] = null; // Record no answer
-    disableAnswers(); 
-    submitBtn.disabled = true; 
-    timerEl.innerText = "Time's up!";
-    
+    // Automatically go to the next question if time runs out
     currentQuiz++;
     if (currentQuiz < quizData.length) {
-        setTimeout(() => {
-            loadQuiz();
-        }, 2000); 
+        loadQuiz();
     } else {
-        setTimeout(() => {
-            showResults();
-        }, 2000);
+        showResults();
     }
 }
 
 function resetState() {
     answerEls.forEach(el => el.classList.remove("selected"));
-    enableAnswers();
     submitBtn.disabled = true;
     resultEl.innerHTML = '';
     timerEl.innerText = ""; 
@@ -115,7 +97,6 @@ submitBtn.addEventListener("click", () => {
     const selectedAnswer = getSelected();
     if (!selectedAnswer) return;
 
-    userAnswers[currentQuiz] = selectedAnswer;
     if (selectedAnswer === quizData[currentQuiz].correct) {
         score++;
     }
@@ -159,15 +140,14 @@ function showResults() {
     tryAgainBtn.style.display = "block"; 
 }
 
-function enableAnswers() {
-    answerEls.forEach(el => el.classList.remove("disabled"));
-}
-
-function disableAnswers() {
-    answerEls.forEach(el => el.classList.add("disabled"));
-}
-
 function resetQuiz() {
-    // Reload the page to fully reset the quiz state
-    location.reload();
-    }
+    // Reset the quiz state and reload the page
+    currentQuiz = 0;
+    score = 0;
+    clearInterval(timer); // Clear any existing timers
+    timerEl.innerText = ""; 
+    instructionsEl.style.display = "block";
+    quizEl.style.display = "none";
+    tryAgainBtn.style.display = "none"; // Hide the "Try Again" button
+    startBtn.disabled = false; // Re-enable the start button
+     }
