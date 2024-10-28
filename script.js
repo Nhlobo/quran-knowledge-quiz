@@ -80,7 +80,6 @@ function handleTimeUp() {
     submitBtn.disabled = true; // Disable submit button
     timerEl.innerText = "Time's up!";
     
-    // Move to the next question or show results
     currentQuiz++;
     if (currentQuiz < quizData.length) {
         setTimeout(() => {
@@ -111,7 +110,9 @@ answerEls.forEach((answerEl) => {
 
 submitBtn.addEventListener("click", () => {
     const selectedAnswer = getSelected();
-    userAnswers[currentQuiz] = selectedAnswer; // Store user's answer
+    if (!selectedAnswer) return; // Ensure an answer is selected
+
+    userAnswers[currentQuiz] = selectedAnswer;
     if (selectedAnswer === quizData[currentQuiz].correct) {
         score++;
     }
@@ -138,13 +139,12 @@ function getSelected() {
 function showResults() {
     quizEl.innerHTML = `<h2>Your score is ${score}/${quizData.length}</h2>`;
     
-    // Determine button color based on score
     if (score < 5) {
-        submitBtn.style.backgroundColor = "red";
+        tryAgainBtn.style.backgroundColor = "red";
     } else if (score >= 5 && score < 8) {
-        submitBtn.style.backgroundColor = "orange";
-    } else if (score >= 8) {
-        submitBtn.style.backgroundColor = "green";
+        tryAgainBtn.style.backgroundColor = "orange";
+    } else {
+        tryAgainBtn.style.backgroundColor = "green";
     }
 
     if (score === quizData.length) {
@@ -168,8 +168,8 @@ function resetQuiz() {
     currentQuiz = 0;
     score = 0;
     userAnswers = [];
-    resetState(); // Reset state to initial condition
-    timerEl.innerText = ""; // Clear timer
-    instructionsEl.style.display = "block"; // Show instructions
-    quizEl.style.display = "none"; // Hide quiz
-     }
+    resetState();
+    timerEl.innerText = "";
+    instructionsEl.style.display = "block";
+    quizEl.style.display = "none";
+}
