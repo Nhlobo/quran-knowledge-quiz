@@ -24,20 +24,9 @@ const resultEl = document.getElementById("result");
 const startBtn = document.getElementById("start-btn");
 const instructionsEl = document.getElementById("instructions");
 const quizEl = document.getElementById("quiz");
-const timerEl = document.createElement("div");
+const timerEl = document.getElementById("timer");
 
-timerEl.id = "timer";
-quizEl.prepend(timerEl);
-
-// Create "Try Again" button
-const tryAgainBtn = document.createElement("button");
-tryAgainBtn.innerText = "Try Again";
-tryAgainBtn.id = "try-again-btn";
-tryAgainBtn.style.position = "fixed";
-tryAgainBtn.style.bottom = "10px";
-tryAgainBtn.style.left = "10px";
-tryAgainBtn.style.display = "none";
-document.body.appendChild(tryAgainBtn);
+const tryAgainBtn = document.getElementById("try-again-btn");
 
 startBtn.addEventListener("click", () => {
     instructionsEl.style.display = "none";
@@ -172,4 +161,4 @@ function resetQuiz() {
     timerEl.innerText = "";
     instructionsEl.style.display = "block";
     quizEl.style.display = "none";
-}
+    }
