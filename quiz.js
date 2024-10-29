@@ -253,83 +253,8 @@ function showResults() {
 
     tryAgainBtn.style.display = "block"; // Show the Try Again button after results are shown
 }
+
 function resetQuiz() {
-    // Reset quiz state variables
-    currentQuiz = 0;
-    score = 0;
-    userAnswers = [];
-
-    // Clear the timer interval and reset timeLeft
-    clearInterval(timer);
-    timeLeft = 15;
-
-    // Reset UI elements
-    instructionsEl.style.display = "block"; // Show the instructions section
-    quizEl.style.display = "none"; // Hide the quiz section
-    resultEl.innerHTML = ''; // Clear any previous results
-    timerEl.innerText = ""; // Clear the timer display
-
-    // Reset question text and options
-    questionEl.innerText = "";
-    answerEls.forEach(answerEl => {
-        answerEl.innerText = "";
-        answerEl.classList.remove("selected", "disabled");
-    });
-
-    // Disable the submit button until an answer is selected
-    submitBtn.disabled = true;
-
-    // Enable start button and hide Try Again button
-    startBtn.disabled = false;
-    tryAgainBtn.style.display = "none";
-
-    // Remove existing event listeners to prevent multiple triggers
-    startBtn.removeEventListener("click", loadQuiz);
-    startBtn.addEventListener("click", startQuiz); // Reset the start button's behavior
+    // This will reload the page, fully resetting the app to its initial state
+    location.reload();
 }
-
-// Adjust the startQuiz function to ensure it starts the quiz from scratch
-function startQuiz() {
-    // Hide instructions and show quiz elements
-    instructionsEl.style.display = "none";
-    quizEl.style.display = "block";
-
-    // Reset UI state and load the first question
-    submitBtn.disabled = true; // Disable submit button initially
-    loadQuiz(); // Load the first question
-
-    // Manage button visibility
-    startBtn.disabled = true; // Prevent multiple starts
-    tryAgainBtn.style.display = "none"; // Hide Try Again button during the quiz
-}
-
-// Function to load questions and options dynamically
-function loadQuiz() {
-    // Ensure there are questions to load, then load the current one
-    if (currentQuiz < questions.length) {
-        const currentQuestionData = questions[currentQuiz];
-        questionEl.innerText = currentQuestionData.question;
-        
-        answerEls.forEach((answerEl, index) => {
-            answerEl.innerText = currentQuestionData.options[index];
-            answerEl.classList.remove("selected", "disabled");
-        });
-        
-        // Re-enable the submit button once an option is selected
-        answerEls.forEach(answerEl => {
-            answerEl.addEventListener("click", () => {
-                submitBtn.disabled = false; // Enable submit button
-            });
-        });
-        
-        // Reset the timer for each question if using a timer
-        resetTimer(); // Optional if you have a countdown timer
-    } else {
-        // When out of questions, show score and Try Again button
-        showScore();
-    }
-}
-
-tryAgainBtn.addEventListener("click", resetQuiz); // Attach reset functionality to Try Again
-
-
