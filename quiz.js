@@ -283,18 +283,53 @@ function resetQuiz() {
     startBtn.disabled = false;
     tryAgainBtn.style.display = "none";
 
-    // Reset the Start button behavior to re-initialize the quiz correctly
-    startBtn.addEventListener("click", startQuiz);
+    // Remove existing event listeners to prevent multiple triggers
+    startBtn.removeEventListener("click", loadQuiz);
+    startBtn.addEventListener("click", startQuiz); // Reset the start button's behavior
 }
 
-// Adjust the startQuiz function to load the first question correctly
+// Adjust the startQuiz function to ensure it starts the quiz from scratch
 function startQuiz() {
-    instructionsEl.style.display = "none"; // Hide instructions section
-    quizEl.style.display = "block"; // Show quiz section
+    // Hide instructions and show quiz elements
+    instructionsEl.style.display = "none";
+    quizEl.style.display = "block";
+
+    // Reset UI state and load the first question
+    submitBtn.disabled = true; // Disable submit button initially
     loadQuiz(); // Load the first question
-    startBtn.disabled = true; // Disable start button to prevent multiple starts
+
+    // Manage button visibility
+    startBtn.disabled = true; // Prevent multiple starts
     tryAgainBtn.style.display = "none"; // Hide Try Again button during the quiz
 }
 
-tryAgainBtn.addEventListener("click", resetQuiz); // Attach the reset function to Try Again button
+// Function to load questions and options dynamically
+function loadQuiz() {
+    // Ensure there are questions to load, then load the current one
+    if (currentQuiz < questions.length) {
+        const currentQuestionData = questions[currentQuiz];
+        questionEl.innerText = currentQuestionData.question;
+        
+        answerEls.forEach((answerEl, index) => {
+            answerEl.innerText = currentQuestionData.options[index];
+            answerEl.classList.remove("selected", "disabled");
+        });
+        
+        // Re-enable the submit button once an option is selected
+        answerEls.forEach(answerEl => {
+            answerEl.addEventListener("click", () => {
+                submitBtn.disabled = false; // Enable submit button
+            });
+        });
+        
+        // Reset the timer for each question if using a timer
+        resetTimer(); // Optional if you have a countdown timer
+    } else {
+        // When out of questions, show score and Try Again button
+        showScore();
+    }
+}
+
+tryAgainBtn.addEventListener("click", resetQuiz); // Attach reset functionality to Try Again
+
 
