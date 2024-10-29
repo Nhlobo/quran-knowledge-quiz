@@ -269,17 +269,32 @@ function resetQuiz() {
     resultEl.innerHTML = ''; // Clear any previous results
     timerEl.innerText = ""; // Clear the timer display
 
-    // Remove any selected answer and reset submit button
-    answerEls.forEach(el => el.classList.remove("selected", "disabled"));
+    // Reset question text and options
+    questionEl.innerText = "";
+    answerEls.forEach(answerEl => {
+        answerEl.innerText = "";
+        answerEl.classList.remove("selected", "disabled");
+    });
+
+    // Disable the submit button until an answer is selected
     submitBtn.disabled = true;
 
     // Enable start button and hide Try Again button
     startBtn.disabled = false;
     tryAgainBtn.style.display = "none";
+
+    // Reset the Start button behavior to re-initialize the quiz correctly
+    startBtn.addEventListener("click", startQuiz);
 }
 
-// Update the "Try Again" button to trigger a full reset
-tryAgainBtn.addEventListener("click", () => {
-    resetQuiz();
-});
+// Adjust the startQuiz function to load the first question correctly
+function startQuiz() {
+    instructionsEl.style.display = "none"; // Hide instructions section
+    quizEl.style.display = "block"; // Show quiz section
+    loadQuiz(); // Load the first question
+    startBtn.disabled = true; // Disable start button to prevent multiple starts
+    tryAgainBtn.style.display = "none"; // Hide Try Again button during the quiz
+}
+
+tryAgainBtn.addEventListener("click", resetQuiz); // Attach the reset function to Try Again button
 
