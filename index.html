@@ -128,27 +128,9 @@
     
     <button id="try-again-btn" onclick="resetQuiz()">Try Again</button>
     <footer>
-        © 2024 Mapengo Innovations.
+        © 2024 Mapengo Innovations. All rights reserved
     </footer>
 
     <script src="quiz.js"></script>
-
-    <script>
-    // Listen for changes in the network connection status
-    window.addEventListener('load', function() {
-        function updateOnlineStatus() {
-            if (!navigator.onLine) {
-                // Redirect to the custom 404 page when offline
-                window.location.href = '404.html';
-            }
-        }
-
-        // Check immediately in case they’re already offline
-        updateOnlineStatus();
-
-        // Listen for future changes to the network status
-        window.addEventListener('offline', updateOnlineStatus);
-    });
-    </script>
 </body>
     </html>
