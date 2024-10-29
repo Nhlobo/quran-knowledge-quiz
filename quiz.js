@@ -254,14 +254,31 @@ function showResults() {
     tryAgainBtn.style.display = "block"; // Show the Try Again button after results are shown
 }
 function resetQuiz() {
-    currentQuiz = 0;  // Reset the current quiz index
-    score = 0;  // Reset the score
-    userAnswers = [];  // Clear user answers
-    clearInterval(timer); // Clear any existing timer
-    resetState();  // Reset the UI state
-    timeLeft = 15;  // Reset the timer starting point
-    instructionsEl.style.display = "block";  // Show instructions again
-    quizEl.style.display = "none";  // Hide the quiz section
-    startBtn.disabled = false;  // Enable the start button
-    tryAgainBtn.style.display = "none";  // Hide the try again button
+    // Reset quiz state
+    currentQuiz = 0;
+    score = 0;
+    userAnswers = [];
+
+    // Reset timer and clear any active intervals
+    clearInterval(timer);
+    timeLeft = 15;
+
+    // Reset UI elements
+    instructionsEl.style.display = "block"; // Show the instructions
+    quizEl.style.display = "none"; // Hide the quiz section
+    resultEl.innerHTML = ''; // Clear results display
+    timerEl.innerText = ""; // Clear the timer display
+
+    // Reset selected answers and disable submit button
+    answerEls.forEach(el => el.classList.remove("selected"));
+    submitBtn.disabled = true;
+
+    // Enable start button and hide Try Again button
+    startBtn.disabled = false;
+    tryAgainBtn.style.display = "none";
 }
+
+// Update the "Try Again" button's click event to reset the quiz
+tryAgainBtn.addEventListener("click", () => {
+    resetQuiz();
+});
