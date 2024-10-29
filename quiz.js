@@ -255,14 +255,6 @@ function showResults() {
 }
 
 function resetQuiz() {
-    currentQuiz = 0;  // Reset the current quiz index
-    score = 0;  // Reset the score
-    userAnswers = [];  // Clear user answers
-    resetState();  // Reset the UI state
-    timerEl.innerText = "";  // Clear the timer display
-    instructionsEl.style.display = "block";  // Show instructions again
-    quizEl.style.display = "none";  // Hide the quiz section
-    startBtn.disabled = false;  // Enable the start button
-    tryAgainBtn.style.display = "none";  // Hide the try again button
-    }
-    
+    // This will reload the page, fully resetting the app to its initial state
+    location.reload();
+}
