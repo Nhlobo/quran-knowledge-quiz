@@ -55,6 +55,16 @@ tryAgainBtn.addEventListener("click", () => {
     tryAgainBtn.style.display = "none"; // Hide the Try Again button immediately
 });
 
+
+
+
+
+
+
+
+
+
+
 function loadQuiz() {
     resetState();
     const currentQuizData = quizData[currentQuiz];
@@ -130,6 +140,89 @@ submitBtn.addEventListener("click", () => {
         showResults();
     }
 });
+function loadQuiz() {
+    resetState();
+    const currentQuizData = quizData[currentQuiz];
+    questionEl.innerText = currentQuizData.question;
+    answerEls[0].innerText = currentQuizData.a;
+    answerEls[1].innerText = currentQuizData.b;
+    answerEls[2].innerText = currentQuizData.c;
+    answerEls[3].innerText = currentQuizData.d;
+    startTimer();
+}
+
+function startTimer() {
+    timeLeft = 15;
+    timerEl.innerText = `Time Left: ${timeLeft}s`;
+    timer = setInterval(() => {
+        timeLeft--;
+        timerEl.innerText = `Time Left: ${timeLeft}s`;
+        if (timeLeft <= 0) {
+            clearInterval(timer);
+            handleTimeUp();
+        }
+    }, 1000);
+}
+
+function handleTimeUp() {
+    userAnswers[currentQuiz] = null; // Record no answer for this question
+    disableAnswers(); // Disable answer buttons
+    submitBtn.disabled = true; // Disable submit button
+    timerEl.innerText = "Time's up!";
+    
+    currentQuiz++;
+    if (currentQuiz < quizData.length) {
+        setTimeout(() => {
+            loadQuiz();
+        }, 2000); // Delay before loading next question
+    } else {
+        setTimeout(() => {
+            showResults();
+        }, 2000); // Delay before showing results
+    }
+}
+
+function resetState() {
+    answerEls.forEach(el => el.classList.remove("selected"));
+    enableAnswers();
+    submitBtn.disabled = true; // Disable until an answer is selected
+    resultEl.innerHTML = '';
+    timerEl.innerText = ""; // Reset timer text
+}
+
+function enableAnswers() {
+    answerEls.forEach(el => el.classList.remove("disabled"));
+}
+
+function disableAnswers() {
+    answerEls.forEach(el => el.classList.add("disabled"));
+}
+
+answerEls.forEach((answerEl) => {
+    answerEl.addEventListener("click", () => {
+        answerEls.forEach(el => el.classList.remove("selected"));
+        answerEl.classList.add("selected");
+        submitBtn.disabled = false; // Enable button once an answer is selected
+    });
+});
+
+submitBtn.addEventListener("click", () => {
+    const selectedAnswer = getSelected();
+    if (!selectedAnswer) return; // Ensure an answer is selected
+
+    userAnswers[currentQuiz] = selectedAnswer;
+    if (selectedAnswer === quizData[currentQuiz].correct) {
+        score++;
+    }
+    clearInterval(timer); // Clear timer when submitting
+
+    currentQuiz++;
+    if (currentQuiz < quizData.length) {
+        loadQuiz();
+    } else {
+        showResults();
+    }
+});
 
 function getSelected() {
     let selectedAnswer = null;
@@ -144,7 +237,6 @@ function getSelected() {
 function showResults() {
     quizEl.innerHTML = `<h2>Your score is ${score}/${quizData.length}</h2>`;
     
-    // Set button color based on score
     if (score < 5) {
         tryAgainBtn.style.backgroundColor = "red";
     } else if (score >= 5 && score < 8) {
@@ -162,25 +254,6 @@ function showResults() {
     tryAgainBtn.style.display = "block"; // Show the Try Again button after results are shown
 }
 
-function enableAnswers() {
-    answerEls.forEach(el => el.classList.remove("disabled"));
-}
-
-function disableAnswers() {
-    answerEls.forEach(el => el.classList.add("disabled"));
-}
-
-function loadQuiz() {
-    resetState();
-    const currentQuizData = quizData[currentQuiz];
-    questionEl.innerText = currentQuizData.question;
-    answerEls[0].innerText = currentQuizData.a;
-    answerEls[1].innerText = currentQuizData.b;
-    answerEls[2].innerText = currentQuizData.c;
-    answerEls[3].innerText = currentQuizData.d;
-    startTimer();
-}
-
 function resetQuiz() {
     currentQuiz = 0;  // Reset the current quiz index
     score = 0;  // Reset the score
@@ -191,36 +264,4 @@ function resetQuiz() {
     quizEl.style.display = "none";  // Hide the quiz section
     startBtn.disabled = false;  // Enable the start button
     tryAgainBtn.style.display = "none";  // Hide the try again button
-}
-
-startBtn.addEventListener("click", () => {
-    instructionsEl.style.display = "none";
-    quizEl.style.display = "block";
-    loadQuiz();  // Load the first question
-    startBtn.disabled = true;  // Disable the start button after starting the quiz
-});
-
-tryAgainBtn.addEventListener("click", () => {
-    resetQuiz(); // Reset the quiz
-    tryAgainBtn.style.display = "none"; // Hide the try again button
-});
-
-function showResults() {
-    quizEl.innerHTML = `<h2>Your score is ${score}/${quizData.length}</h2>`;
-    
-    if (score < 5) {
-        tryAgainBtn.style.backgroundColor = "red";
-    } else if (score >= 5 && score < 8) {
-        tryAgainBtn.style.backgroundColor = "orange";
-    } else {
-        tryAgainBtn.style.backgroundColor = "green";
-    }
-
-    if (score === quizData.length) {
-        const message = document.createElement("p");
-        message.innerText = "Congratulations! You got a perfect score!";
-        quizEl.appendChild(message);
-    }
-
-    tryAgainBtn.style.display = "block"; // Show the try again button
-}
+        }
