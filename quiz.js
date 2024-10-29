@@ -170,17 +170,57 @@ function disableAnswers() {
     answerEls.forEach(el => el.classList.add("disabled"));
 }
 
-function resetQuiz() {
-    currentQuiz = 0;
-    score = 0;
-    userAnswers = [];
+function loadQuiz() {
     resetState();
+    const currentQuizData = quizData[currentQuiz];
+    questionEl.innerText = currentQuizData.question;
+    answerEls[0].innerText = currentQuizData.a;
+    answerEls[1].innerText = currentQuizData.b;
+    answerEls[2].innerText = currentQuizData.c;
+    answerEls[3].innerText = currentQuizData.d;
+    startTimer();
+}
 
-    // Reset UI elements
-    timerEl.innerText = ""; // Reset timer text
-    instructionsEl.style.display = "block"; // Show instructions
-    quizEl.style.display = "none"; // Hide quiz content
-    startBtn.disabled = false; // Re-enable start button
+function resetQuiz() {
+    currentQuiz = 0;  // Reset the current quiz index
+    score = 0;  // Reset the score
+    userAnswers = [];  // Clear user answers
+    resetState();  // Reset the UI state
+    timerEl.innerText = "";  // Clear the timer display
+    instructionsEl.style.display = "block";  // Show instructions again
+    quizEl.style.display = "none";  // Hide the quiz section
+    startBtn.disabled = false;  // Enable the start button
+    tryAgainBtn.style.display = "none";  // Hide the try again button
+}
 
-    tryAgainBtn.style.display = "none"; // Hide the Try Again button
-        }
+startBtn.addEventListener("click", () => {
+    instructionsEl.style.display = "none";
+    quizEl.style.display = "block";
+    loadQuiz();  // Load the first question
+    startBtn.disabled = true;  // Disable the start button after starting the quiz
+});
+
+tryAgainBtn.addEventListener("click", () => {
+    resetQuiz(); // Reset the quiz
+    tryAgainBtn.style.display = "none"; // Hide the try again button
+});
+
+function showResults() {
+    quizEl.innerHTML = `<h2>Your score is ${score}/${quizData.length}</h2>`;
+    
+    if (score < 5) {
+        tryAgainBtn.style.backgroundColor = "red";
+    } else if (score >= 5 && score < 8) {
+        tryAgainBtn.style.backgroundColor = "orange";
+    } else {
+        tryAgainBtn.style.backgroundColor = "green";
+    }
+
+    if (score === quizData.length) {
+        const message = document.createElement("p");
+        message.innerText = "Congratulations! You got a perfect score!";
+        quizEl.appendChild(message);
+    }
+
+    tryAgainBtn.style.display = "block"; // Show the try again button
+}
