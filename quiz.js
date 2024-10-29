@@ -253,15 +253,15 @@ function showResults() {
 
     tryAgainBtn.style.display = "block"; // Show the Try Again button after results are shown
 }
-
 function resetQuiz() {
     currentQuiz = 0;  // Reset the current quiz index
     score = 0;  // Reset the score
     userAnswers = [];  // Clear user answers
+    clearInterval(timer); // Clear any existing timer
     resetState();  // Reset the UI state
-    timerEl.innerText = "";  // Clear the timer display
+    timeLeft = 15;  // Reset the timer starting point
     instructionsEl.style.display = "block";  // Show instructions again
     quizEl.style.display = "none";  // Hide the quiz section
     startBtn.disabled = false;  // Enable the start button
     tryAgainBtn.style.display = "none";  // Hide the try again button
-        }
+}
