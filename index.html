@@ -5,6 +5,97 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Quran Quiz</title>
     <link rel="stylesheet" href="style.css">
+    <style>
+        /* General Styling */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background-color: #f8f9fa;
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .quiz-container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            max-width: 600px;
+            width: 100%;
+            text-align: center;
+        }
+
+        h1 {
+            color: #ff6347;
+            margin-bottom: 20px;
+        }
+
+        p {
+            color: #666;
+            margin-bottom: 20px;
+        }
+
+        .answers {
+            margin: 20px 0;
+        }
+
+        .answer {
+            display: block;
+            margin: 10px auto;
+            padding: 10px 20px;
+            background-color: #ff6347;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .answer:hover {
+            background-color: #e0533a;
+        }
+
+        #timer {
+            font-size: 1.2em;
+            color: #ff6347;
+            margin-bottom: 20px;
+        }
+
+        #result {
+            margin-top: 20px;
+            font-weight: bold;
+        }
+
+        #try-again-btn {
+            padding: 10px 20px;
+            background-color: #ff6347;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            display: none;
+            margin-top: 20px;
+        }
+
+        #try-again-btn:hover {
+            background-color: #e0533a;
+        }
+
+        footer {
+            margin-top: 20px;
+            font-size: 0.9em;
+            color: #999;
+        }
+    </style>
 </head>
 <body>
     <div class="quiz-container">
@@ -35,7 +126,7 @@
         </div>
     </div>
     
-    <button id="try-again-btn" onclick="resetQuiz()" style="display: none;">Try Again</button>
+    <button id="try-again-btn" onclick="resetQuiz()">Try Again</button>
     <footer>
         © 2024 Mapengo Innovations.
     </footer>
