@@ -184,7 +184,7 @@ button:hover {
 }
 
 /* Cleaned CSS with Falling Animation for Congratulations Message */
-.results-summary-container {
+.perfect-score-message {
   font-family: "Hanken Grotesk", sans-serif;
   display: flex;
   flex-direction: column;
