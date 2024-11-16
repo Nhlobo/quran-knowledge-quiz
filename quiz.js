@@ -247,8 +247,10 @@ function showResults() {
 
     if (score === quizData.length) {
         const message = document.createElement("p");
-        message.innerText = "Congratulations! You got a perfect score!";
-        quizEl.appendChild(message);
+message.innerText = "Congratulations! You got a perfect score!";
+message.className = "perfect-score-message"; // Add a class here
+quizEl.appendChild(message);
+
     }
 
     tryAgainBtn.style.display = "block"; // Show the Try Again button after results are shown
